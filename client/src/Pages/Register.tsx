@@ -2,32 +2,35 @@ import { styled } from "styled-components";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Register() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     //Get all target and convert then in an object
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-    axios
-      .post("http://localhost:3000/api/auth/login", data, {
-        withCredentials: true,
-      })
-      .then(() => {
-        navigate("/");
-      })
-      .catch(() => alert("Authentication failed"));
-  };
+    if (data.password !== data.repassword)
+      alert("Password does not match the Re-Password try again");
+    console.log({ data });
 
+    // axios
+    //   .post("http://localhost:3000/api/auth/register", data, {
+    //     withCredentials: true,
+    //   })
+    //   .then(() => {
+    //     navigate("/login");
+    //   })
+    //   .catch(() => alert("Authentication failed"));
+  };
   return (
     <PageContainer>
-      <LoginDiv>
-        <LoginTitle>Log in</LoginTitle>
+      <RegisterDiv>
+        <RegisterTitle>Register</RegisterTitle>
         <StyledForm onSubmit={handleSubmit}>
           <InputsContainer>
             <StyledInput type="text" label="Username" name="username" />
@@ -52,19 +55,35 @@ export default function Login() {
                 label="Password"
                 name="password"
               />
-              <ForgotPassword>Forgot Password?</ForgotPassword>
+            </PasswordContainer>
+            <PasswordContainer>
+              <StyledInput
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setShowPassword((show) => !show)}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      }
+                    </InputAdornment>
+                  ),
+                }}
+                label="Re-Password"
+                name="repassword"
+              />
             </PasswordContainer>
           </InputsContainer>
-          <ButtonsContainer>
-            <StyledButton onClick={() => navigate("/Register")}>
-              Sign Up
-            </StyledButton>
-            <StyledButton type="submit" value="Submit">
-              Sign In
-            </StyledButton>
-          </ButtonsContainer>
+          <StyledButton type="submit" value="Submit">
+            Sign Up
+          </StyledButton>
         </StyledForm>
-      </LoginDiv>
+      </RegisterDiv>
     </PageContainer>
   );
 }
@@ -79,7 +98,7 @@ const PageContainer = styled.div`
   justify-content: center;
 `;
 
-const LoginDiv = styled.div`
+const RegisterDiv = styled.div`
   width: 50%;
 `;
 
@@ -105,26 +124,14 @@ const StyledInput = styled(TextField)`
   }
 `;
 
-const LoginTitle = styled.h1`
+const RegisterTitle = styled.h1`
   color: blue;
   font-weight: 300;
   font-size: 2rem;
   line-height: 3.2;
 `;
 
-const ButtonsContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-`;
-
 const StyledButton = styled.button`
   background-color: #0d5285;
   color: #fff7ed;
-`;
-
-const ForgotPassword = styled.a`
-  font-size: 0.7rem;
-  color: black;
-  text-decoration: underline;
-  text-align: end;
 `;
