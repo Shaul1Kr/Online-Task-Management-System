@@ -56,11 +56,11 @@ export default function Login() {
             </PasswordContainer>
           </InputsContainer>
           <ButtonsContainer>
-            <StyledButton onClick={() => navigate("/Register")}>
-              Sign Up
-            </StyledButton>
             <StyledButton type="submit" value="Submit">
               Sign In
+            </StyledButton>
+            <StyledButton onClick={() => navigate("/Register")}>
+              Sign Up
             </StyledButton>
           </ButtonsContainer>
         </StyledForm>

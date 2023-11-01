@@ -2,12 +2,12 @@ import { styled } from "styled-components";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
-// import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,15 +17,14 @@ export default function Register() {
     if (data.password !== data.repassword)
       alert("Password does not match the Re-Password try again");
     console.log({ data });
-
-    // axios
-    //   .post("http://localhost:3000/api/auth/register", data, {
-    //     withCredentials: true,
-    //   })
-    //   .then(() => {
-    //     navigate("/login");
-    //   })
-    //   .catch(() => alert("Authentication failed"));
+    axios
+      .post("http://localhost:3000/api/auth/register", data, {
+        withCredentials: true,
+      })
+      .then(() => {
+        navigate("/Login");
+      })
+      .catch(() => alert("Authentication failed"));
   };
   return (
     <PageContainer>

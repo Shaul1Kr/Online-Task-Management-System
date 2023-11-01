@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-export default async function login(req, res) {
+export async function login(req, res) {
   try {
     const { username, password } = req.body;
     console.info(
@@ -21,6 +21,20 @@ export default async function login(req, res) {
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
       .send("Login successfully");
+  } catch (error) {
+    console.error(error);
+    return res.status(401).json({ message: "Authentication failed" });
+  }
+}
+
+export async function register(req, res) {
+  try {
+    const { username, password } = req.body;
+    console.info(`Register with username: ${username} password: ${password}`);
+    const salt = await bcrypt.genSalt();
+    const saltPassword = await bcrypt.hash(password, salt);
+    await User.create({ username, password: saltPassword });
+    return res.status(200).send("Register successfully");
   } catch (error) {
     console.error(error);
     return res.status(401).json({ message: "Authentication failed" });
