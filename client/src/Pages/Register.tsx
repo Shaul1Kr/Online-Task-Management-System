@@ -16,7 +16,6 @@ export default function Register() {
     const data = Object.fromEntries(formData.entries());
     if (data.password !== data.repassword)
       alert("Password does not match the Re-Password try again");
-    console.log({ data });
     axios
       .post("http://localhost:3000/api/auth/register", data, {
         withCredentials: true,

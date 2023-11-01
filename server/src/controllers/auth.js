@@ -40,3 +40,22 @@ export async function register(req, res) {
     return res.status(401).json({ message: "Authentication failed" });
   }
 }
+
+export async function resetPassword(req, res) {
+  try {
+    const { username, password } = req.body;
+    console.info(
+      `Trying to log in with username: ${username} password: ${password}`
+    );
+    const user = await User.findOne({ username });
+    if (!user) return res.status(403).json({ msg: "username is incorrect" });
+    const salt = await bcrypt.genSalt();
+    const saltPassword = await bcrypt.hash(password, salt);
+    user.password = saltPassword;
+    await user.save();
+    return res.status(200).send("Password reseted successfully");
+  } catch (error) {
+    console.error(error);
+    return res.status(401).json({ message: "Authentication failed" });
+  }
+}
