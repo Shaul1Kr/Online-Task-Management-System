@@ -1,6 +1,17 @@
+import axios from "axios";
+import { useLoaderData } from "react-router-dom";
 import styled from "styled-components";
 
+export async function loader() {
+  const response = await axios.get("http://localhost:3000/api/task/getTask", {
+    withCredentials: true,
+  });
+
+  return response.data;
+}
+
 export default function TaskManager() {
+  const { tasks } = useLoaderData() as Tasks;
   return (
     <TaskDiv>
       <Title>Task Manager</Title>
