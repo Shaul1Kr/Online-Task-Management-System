@@ -1,5 +1,7 @@
 import axios from "axios";
+import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export async function loader() {
@@ -11,17 +13,25 @@ export async function loader() {
 }
 
 export default function TaskManager() {
+  const navigate = useNavigate();
   const { tasks } = useLoaderData() as Tasks;
+  const [desc, setDesc] = useState<string>("");
+
   return (
     <TaskDiv>
       <Title>Task Manager</Title>
+      <StyledButton onClick={() => navigate("/NewTask")}>
+        Create Task
+      </StyledButton>
       <TasksDiv>
         <TaskTitlesWrapper>
-          <TaskTitleDiv>
-            <TaskTitle>asdada</TaskTitle>
-          </TaskTitleDiv>
+          {tasks.map((task) => (
+            <TaskTitleDiv onClick={() => setDesc(task.description)}>
+              <TaskTitle>{task.title}</TaskTitle>
+            </TaskTitleDiv>
+          ))}
         </TaskTitlesWrapper>
-        <TaskDetailDiv></TaskDetailDiv>
+        <TaskDetailDiv>{desc}</TaskDetailDiv>
       </TasksDiv>
     </TaskDiv>
   );
@@ -39,6 +49,7 @@ const TaskDiv = styled.div`
 const Title = styled.p``;
 
 const TasksDiv = styled.div`
+  display: flex;
   border: 1px solid grey;
   width: 80%;
   height: 80dvh;
@@ -60,8 +71,15 @@ const TaskTitleDiv = styled.div`
   background-color: white;
 `;
 
-const TaskDetailDiv = styled.div``;
+const TaskDetailDiv = styled.div`
+  padding: 1rem;
+`;
 
 const TaskTitle = styled.p`
   margin: 0;
+`;
+
+const StyledButton = styled.button`
+  background-color: #0d5285;
+  color: #fff7ed;
 `;

@@ -4,6 +4,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import ResetPassword from "./Pages/ResetPassword";
 import TaskManager, { loader as TaskManagerLoader } from "./Pages/TaskManager";
+import CreateTask from "./Pages/CreateTask";
 
 export default function App() {
   return <RouterProvider router={router} />;
@@ -14,10 +15,15 @@ const router = createBrowserRouter([
     path: "",
     element: <Layout />,
     children: [
-      { path: "Login", element: <Login /> },
+      { path: "", element: <Login /> },
       { path: "Register", element: <Register /> },
       { path: "ResetPassword", element: <ResetPassword /> },
-      { path: "", loader: TaskManagerLoader, element: <TaskManager /> },
+      {
+        path: "TaskManager",
+        loader: TaskManagerLoader,
+        element: <TaskManager />,
+      },
+      { path: "NewTask", element: <CreateTask /> },
     ],
   },
 ]);

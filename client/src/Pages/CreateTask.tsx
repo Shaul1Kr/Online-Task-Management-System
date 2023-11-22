@@ -10,9 +10,11 @@ export default function CreateTask() {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
     console.log(data);
-    // axios
-    //   .post("http://localhost:3000/api/task/createTask", data)
-    //   .then(() => navigate("/"));
+    axios
+      .post("http://localhost:3000/api/task/createTask", data, {
+        withCredentials: true,
+      })
+      .then(() => navigate("/TaskManager"));
   };
 
   return (
@@ -21,12 +23,16 @@ export default function CreateTask() {
         <Title>Create New Task</Title>
         <InputDiv>
           <InputContainer>
+            <p>Title</p>
             <Input type="text" name="title" />
-            <Input type="text" name="description" />
-            <CreateButton type="submit" value="Submit">
-              Create
-            </CreateButton>
           </InputContainer>
+          <InputContainer>
+            <p>Description</p>
+            <Input type="text" name="description" />
+          </InputContainer>
+          <CreateButton type="submit" value="Submit">
+            Create
+          </CreateButton>
           <CancelButton>Cancel</CancelButton>
         </InputDiv>
       </CreateDiv>
@@ -46,8 +52,8 @@ const CreateDiv = styled.form`
   display: grid;
   background-color: #ffffff;
   border-radius: 10px;
-  width: 40%;
   min-height: 40dvh;
+  padding: 3rem;
   justify-items: center;
 `;
 
@@ -57,29 +63,31 @@ const Title = styled.p`
 `;
 
 const InputDiv = styled.div`
-  display: flex;
+  display: grid;
   align-items: center;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  border: 1px solid #07c7a4;
-  border-radius: 7px;
 `;
 
 const Input = styled.input`
   border: none;
-  border-radius: 7px 0px 0px 7px;
+  padding: 0.5rem;
+  border-radius: 7px;
   background-color: #f2f2f2;
+  width: -webkit-fill-available;
 `;
 
 const CreateButton = styled.button`
   background-color: #07c7a4;
   color: #ffffff;
-  border-radius: 0px 7px 7px 0px;
+  border-radius: 7px;
 `;
 
 const CancelButton = styled.button`
   color: #07c7a4;
   background-color: #ffffff;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;

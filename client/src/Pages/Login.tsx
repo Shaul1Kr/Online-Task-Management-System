@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const navigate = useNavigate();
-
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     //Get all target and convert then in an object
@@ -19,7 +18,7 @@ export default function Login() {
         withCredentials: true,
       })
       .then(() => {
-        navigate("/");
+        navigate("/TaskManager");
       })
       .catch(() => alert("Authentication failed"));
   };
