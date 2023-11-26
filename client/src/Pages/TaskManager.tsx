@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 import styled from "styled-components";
 
 export async function loader() {
@@ -26,9 +27,12 @@ export default function TaskManager() {
       <TasksDiv>
         <TaskTitlesWrapper>
           {tasks.map((task) => (
-            <TaskTitleDiv onClick={() => setDesc(task.description)}>
-              <TaskTitle>{task.title}</TaskTitle>
-            </TaskTitleDiv>
+            <EditTask>
+              <TaskTitleDiv onClick={() => setDesc(task.description)}>
+                <TaskTitle>{task.title}</TaskTitle>
+              </TaskTitleDiv>
+              <BorderColorIcon />
+            </EditTask>
           ))}
         </TaskTitlesWrapper>
         <TaskDetailDiv>{desc}</TaskDetailDiv>
@@ -69,6 +73,7 @@ const TaskTitleDiv = styled.div`
   border-bottom: 1px solid grey;
   cursor: pointer;
   background-color: white;
+  width: 100%;
 `;
 
 const TaskDetailDiv = styled.div`
@@ -82,4 +87,8 @@ const TaskTitle = styled.p`
 const StyledButton = styled.button`
   background-color: #0d5285;
   color: #fff7ed;
+`;
+
+const EditTask = styled.div`
+  display: flex;
 `;

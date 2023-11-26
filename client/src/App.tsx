@@ -5,6 +5,7 @@ import Register from "./Pages/Register";
 import ResetPassword from "./Pages/ResetPassword";
 import TaskManager, { loader as TaskManagerLoader } from "./Pages/TaskManager";
 import CreateTask from "./Pages/CreateTask";
+import EditTask from "./Pages/EditTask";
 
 export default function App() {
   return <RouterProvider router={router} />;
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
         element: <TaskManager />,
       },
       { path: "NewTask", element: <CreateTask /> },
+      { path: "EditTask", element: <EditTask /> },
     ],
   },
 ]);
